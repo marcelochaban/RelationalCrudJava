@@ -84,7 +84,7 @@
             <Component class="javax.swing.JLabel" name="backText">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Noto Mono" size="14" style="3"/>
+                  <Font name="Noto Mono" size="18" style="3"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="&lt;--"/>
@@ -168,7 +168,7 @@
                   <Font name="Roboto" size="18" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Registro de clientes"/>
+                <Property name="text" type="java.lang.String" value="Registro de personal"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JPanel" name="entriWhite">
@@ -293,7 +293,7 @@
                 <Component class="javax.swing.JLabel" name="lidCliente">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Id_cliente:"/>
+                    <Property name="text" type="java.lang.String" value="Id_personal"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="idPersonalTxt">
@@ -457,7 +457,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="closeText" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

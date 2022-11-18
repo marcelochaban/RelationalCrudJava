@@ -4,28 +4,20 @@
  */
 package Frames;
 
-import java.awt.Color;
-
 /**
  *
- * @author marcelo
+ * @author horac
  */
 public class coinTable extends javax.swing.JFrame {
+
+    
+    int yMouse,xMouse;
 
     /**
      * Creates new form coinTable
      */
     public coinTable() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        limpiar();
-        mostrartabla("");
-    }
-    
-    void limpiar(){
-    }
-    
-    void mostrartabla(String valor){
     }
 
     /**
@@ -38,115 +30,145 @@ public class coinTable extends javax.swing.JFrame {
     private void initComponents() {
 
         background = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         closeButton = new javax.swing.JPanel();
         closeText = new javax.swing.JLabel();
+        backButton = new javax.swing.JPanel();
+        backText = new javax.swing.JLabel();
+        Barra = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 134, 190));
-        setUndecorated(true);
-        setResizable(false);
 
         background.setBackground(new java.awt.Color(0, 134, 190));
+        background.setFocusable(false);
+        background.setPreferredSize(new java.awt.Dimension(420, 300));
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        closeButton.setBackground(new java.awt.Color(255, 255, 255));
+        closeButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeButtonMouseClicked(evt);
-            }
-        });
-
-        closeText.setFont(new java.awt.Font("Noto Sans Mono", 3, 24)); // NOI18N
+        closeText.setBackground(new java.awt.Color(255, 255, 255));
+        closeText.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         closeText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         closeText.setText("x");
-        closeText.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeTextMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                closeTextMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                closeTextMouseExited(evt);
-            }
-        });
+        closeText.setPreferredSize(new java.awt.Dimension(30, 30));
+        closeText.setRequestFocusEnabled(false);
 
         javax.swing.GroupLayout closeButtonLayout = new javax.swing.GroupLayout(closeButton);
         closeButton.setLayout(closeButtonLayout);
         closeButtonLayout.setHorizontalGroup(
             closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(closeText, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
+            .addGroup(closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(closeButtonLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(closeText, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         closeButtonLayout.setVerticalGroup(
             closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(closeText, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addGap(0, 25, Short.MAX_VALUE)
+            .addGroup(closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(closeButtonLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(closeText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        background.add(closeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 20, 20));
+
+        backButton.setBackground(new java.awt.Color(255, 255, 255));
+
+        backText.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        backText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backText.setText("<--");
+
+        javax.swing.GroupLayout backButtonLayout = new javax.swing.GroupLayout(backButton);
+        backButton.setLayout(backButtonLayout);
+        backButtonLayout.setHorizontalGroup(
+            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backButtonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backText, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        backButtonLayout.setVerticalGroup(
+            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backButtonLayout.createSequentialGroup()
+                .addComponent(backText)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        background.add(backButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 20));
+
+        Barra.setBackground(new java.awt.Color(255, 255, 255));
+        Barra.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                BarraMouseDragged(evt);
+            }
+        });
+        Barra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                BarraMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout BarraLayout = new javax.swing.GroupLayout(Barra);
+        Barra.setLayout(BarraLayout);
+        BarraLayout.setHorizontalGroup(
+            BarraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 440, Short.MAX_VALUE)
+        );
+        BarraLayout.setVerticalGroup(
+            BarraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
+        background.add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 440, 20));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 130, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+
+        background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 130, 250));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void closeTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseClicked
+    private void BarraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarraMousePressed
         // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_closeTextMouseClicked
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_BarraMousePressed
 
-    private void closeTextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseEntered
+    private void BarraMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BarraMouseDragged
         // TODO add your handling code here:
-        closeButton.setBackground(Color.red);
-        closeText.setForeground(Color.white);
-    }//GEN-LAST:event_closeTextMouseEntered
-
-    private void closeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeButtonMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_closeButtonMouseClicked
-
-    private void closeTextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseExited
-        // TODO add your handling code here:
-        closeButton.setBackground(Color.white);
-        closeText.setForeground(Color.black);
-    }//GEN-LAST:event_closeTextMouseExited
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_BarraMouseDragged
 
     /**
      * @param args the command line arguments
@@ -181,16 +203,15 @@ public class coinTable extends javax.swing.JFrame {
                 new coinTable().setVisible(true);
             }
         });
-        
     }
-                                      
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Barra;
+    private javax.swing.JPanel backButton;
+    private javax.swing.JLabel backText;
     private javax.swing.JPanel background;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -200,9 +200,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void coinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coinButtonActionPerformed
         // TODO add your handling code here:
-        coinTable coin=new coinTable();
-        coin.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_coinButtonActionPerformed
 
     /**

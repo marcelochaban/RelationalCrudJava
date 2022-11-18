@@ -150,7 +150,7 @@ public class personalTable extends javax.swing.JFrame {
             }
         });
 
-        backText.setFont(new java.awt.Font("Noto Mono", 3, 14)); // NOI18N
+        backText.setFont(new java.awt.Font("Noto Mono", 3, 18)); // NOI18N
         backText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         backText.setText("<--");
         backText.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -211,12 +211,12 @@ public class personalTable extends javax.swing.JFrame {
 
         title.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("Registro de clientes");
+        title.setText("Registro de personal");
 
         entriWhite.setBackground(new java.awt.Color(255, 255, 255));
 
         lidCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lidCliente.setText("Id_cliente:");
+        lidCliente.setText("Id_personal");
 
         idPersonalTxt.setEditable(false);
         idPersonalTxt.setBorder(null);
@@ -428,7 +428,7 @@ public class personalTable extends javax.swing.JFrame {
             closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(closeButtonLayout.createSequentialGroup()
                 .addComponent(closeText)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         background.add(closeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
