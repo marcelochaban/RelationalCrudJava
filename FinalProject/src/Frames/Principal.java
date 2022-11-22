@@ -103,6 +103,11 @@ public class Principal extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 134, 190));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Prestamo");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         Background.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
 
         jButton7.setBackground(new java.awt.Color(0, 134, 190));
@@ -147,7 +152,7 @@ public class Principal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -174,6 +179,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        cardTable card=new cardTable();
+        card.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jPanel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseEntered
@@ -195,13 +203,26 @@ public class Principal extends javax.swing.JFrame {
 
     private void uAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uAccountButtonActionPerformed
         // TODO add your handling code here:
+        accountTable account=new accountTable();
+        account.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_uAccountButtonActionPerformed
 
     private void coinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coinButtonActionPerformed
         // TODO add your handling code here:
+        coinTable coin=new coinTable();
+        coin.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_coinButtonActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        loanTable loan=new loanTable();
+        loan.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

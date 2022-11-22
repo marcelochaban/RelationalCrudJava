@@ -4,6 +4,16 @@
  */
 package Frames;
 
+import Clases.Conectar;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author horac
@@ -17,7 +27,58 @@ public class coinTable extends javax.swing.JFrame {
      * Creates new form coinTable
      */
     public coinTable() {
+        this.setLocationRelativeTo(null);
         initComponents();
+        limpiar();
+        mostrartabla("");
+    }
+    
+    void limpiar(){
+        idCoinTxt.setText("");
+        nameCoinTxt.setText("");
+        
+        
+        System.out.println("funco");
+    }
+
+    void mostrartabla(String valor){
+        
+        DefaultTableModel modelo=new DefaultTableModel();
+        
+        modelo.addColumn("id");
+        modelo.addColumn("nombre");
+        table.setModel(modelo);
+        
+        System.out.println("primera");
+        String sql="SELECT * FROM moneda";
+        
+        String datos[]=new String[6];
+        System.out.println("segunda");
+        Statement st;
+        
+        try {
+            st= cn.createStatement();
+            System.out.println("primera");
+            ResultSet rs=st.executeQuery(sql);
+            
+            while(rs.next()){
+                
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                
+                modelo.addRow(datos);
+            }
+            
+           table.setModel(modelo);
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error en el llamado de la tabla... "+e);
+            
+            JOptionPane.showMessageDialog(null,"Error en el llamado de la tabla");
+            
+        }
+        
     }
 
     /**
@@ -32,12 +93,25 @@ public class coinTable extends javax.swing.JFrame {
         background = new javax.swing.JPanel();
         closeButton = new javax.swing.JPanel();
         closeText = new javax.swing.JLabel();
+        Barra = new javax.swing.JPanel();
+        entry = new javax.swing.JPanel();
+        title = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
+        idCoinTxt = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        nombreLabel = new javax.swing.JLabel();
+        nameCoinTxt = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        updateButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         backButton = new javax.swing.JPanel();
         backText = new javax.swing.JLabel();
-        Barra = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         background.setBackground(new java.awt.Color(0, 134, 190));
         background.setFocusable(false);
@@ -48,58 +122,35 @@ public class coinTable extends javax.swing.JFrame {
         closeButton.setPreferredSize(new java.awt.Dimension(30, 30));
 
         closeText.setBackground(new java.awt.Color(255, 255, 255));
-        closeText.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        closeText.setFont(new java.awt.Font("Noto Mono", 3, 24)); // NOI18N
         closeText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         closeText.setText("x");
         closeText.setPreferredSize(new java.awt.Dimension(30, 30));
         closeText.setRequestFocusEnabled(false);
+        closeText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeTextMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeTextMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeTextMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout closeButtonLayout = new javax.swing.GroupLayout(closeButton);
         closeButton.setLayout(closeButtonLayout);
         closeButtonLayout.setHorizontalGroup(
             closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-            .addGroup(closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(closeButtonLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(closeText, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(closeText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         closeButtonLayout.setVerticalGroup(
             closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-            .addGroup(closeButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(closeButtonLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(closeText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(closeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        background.add(closeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 20, 20));
-
-        backButton.setBackground(new java.awt.Color(255, 255, 255));
-
-        backText.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        backText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        backText.setText("<--");
-
-        javax.swing.GroupLayout backButtonLayout = new javax.swing.GroupLayout(backButton);
-        backButton.setLayout(backButtonLayout);
-        backButtonLayout.setHorizontalGroup(
-            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(backText, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        backButtonLayout.setVerticalGroup(
-            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backButtonLayout.createSequentialGroup()
-                .addComponent(backText)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        background.add(backButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 20));
+        background.add(closeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
         Barra.setBackground(new java.awt.Color(255, 255, 255));
         Barra.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -117,41 +168,178 @@ public class coinTable extends javax.swing.JFrame {
         Barra.setLayout(BarraLayout);
         BarraLayout.setHorizontalGroup(
             BarraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
         BarraLayout.setVerticalGroup(
             BarraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 30, Short.MAX_VALUE)
         );
 
-        background.add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 440, 20));
+        background.add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 610, 30));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 130, Short.MAX_VALUE)
+        entry.setBackground(new java.awt.Color(255, 255, 255));
+
+        title.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Datos de la moneda");
+
+        idLabel.setText("id:");
+
+        idCoinTxt.setEditable(false);
+        idCoinTxt.setBorder(null);
+        idCoinTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idCoinTxtActionPerformed(evt);
+            }
+        });
+
+        nombreLabel.setText("nombre:");
+
+        nameCoinTxt.setBorder(null);
+
+        updateButton.setBackground(new java.awt.Color(0, 134, 190));
+        updateButton.setFont(new java.awt.Font("Liberation Sans", 0, 14)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("Actualizar");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        saveButton.setBackground(new java.awt.Color(0, 134, 190));
+        saveButton.setForeground(new java.awt.Color(255, 255, 255));
+        saveButton.setText("Guardar");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setBackground(new java.awt.Color(0, 134, 190));
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("Eliminar");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout entryLayout = new javax.swing.GroupLayout(entry);
+        entry.setLayout(entryLayout);
+        entryLayout.setHorizontalGroup(
+            entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(entryLayout.createSequentialGroup()
+                .addGroup(entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entryLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, entryLayout.createSequentialGroup()
+                                .addComponent(idLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idCoinTxt))
+                            .addGroup(entryLayout.createSequentialGroup()
+                                .addComponent(nombreLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameCoinTxt))
+                            .addComponent(jSeparator2)
+                            .addGroup(entryLayout.createSequentialGroup()
+                                .addComponent(updateButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteButton)
+                                .addGap(0, 2, Short.MAX_VALUE))))
+                    .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+        entryLayout.setVerticalGroup(
+            entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(entryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idLabel)
+                    .addComponent(idCoinTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombreLabel)
+                    .addComponent(nameCoinTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(entryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateButton)
+                    .addComponent(saveButton)
+                    .addComponent(deleteButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 130, 250));
+        background.add(entry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, -1));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table);
+
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 360, 150));
+
+        backButton.setBackground(new java.awt.Color(255, 255, 255));
+
+        backText.setFont(new java.awt.Font("Noto Mono", 3, 14)); // NOI18N
+        backText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        backText.setText("<--");
+        backText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backTextMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backTextMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backTextMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backButtonLayout = new javax.swing.GroupLayout(backButton);
+        backButton.setLayout(backButtonLayout);
+        backButtonLayout.setHorizontalGroup(
+            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(backText, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+        backButtonLayout.setVerticalGroup(
+            backButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(backText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        background.add(backButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -169,6 +357,131 @@ public class coinTable extends javax.swing.JFrame {
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_BarraMouseDragged
+
+    private void closeTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_closeTextMouseClicked
+
+    private void closeTextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseEntered
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.red);
+        closeText.setForeground(Color.white);
+    }//GEN-LAST:event_closeTextMouseEntered
+
+    private void closeTextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeTextMouseExited
+        // TODO add your handling code here:
+        closeButton.setBackground(Color.white);
+        closeText.setForeground(Color.black);
+    }//GEN-LAST:event_closeTextMouseExited
+
+    private void backTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTextMouseClicked
+        // TODO add your handling code here:
+        Principal principal=new Principal();
+        principal.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backTextMouseClicked
+
+    private void backTextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTextMouseEntered
+        // TODO add your handling code here:
+        backButton.setBackground(Color.red);
+        backText.setForeground(Color.white);
+    }//GEN-LAST:event_backTextMouseEntered
+
+    private void backTextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backTextMouseExited
+        // TODO add your handling code here:
+        backButton.setBackground(Color.white);
+        backText.setForeground(Color.black);
+    }//GEN-LAST:event_backTextMouseExited
+
+    private void idCoinTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCoinTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idCoinTxtActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+                    
+                    System.out.println("pisculichi");
+                    PreparedStatement ps=cn.prepareStatement ("UPDATE moneda SET nombre_moneda='"+nameCoinTxt.getText()+"' where id_moneda='"+idCoinTxt.getText()+"'");
+                    
+            int respuesta=ps.executeUpdate();
+            
+            if (respuesta>0){
+                JOptionPane.showMessageDialog(null,"Datos acutalizados");
+                limpiar();
+                mostrartabla("");
+            }else{
+                JOptionPane.showMessageDialog(null,"No selecciono la fila");
+            }
+                    } catch (SQLException e) {
+                        System.err.println("Error al actualizar... "+e);
+                        JOptionPane.showMessageDialog(null,"Error al actualizar");   
+                    }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:try {
+        try {
+            PreparedStatement ps=cn.prepareStatement("INSERT INTO moneda (nombre_moneda) VALUES  (?)");
+            
+
+            ps.setString(1,nameCoinTxt.getText() );
+
+            ps.executeUpdate();
+            
+            limpiar();
+            mostrartabla("");
+            
+        } catch (Exception e) {
+            
+            System.err.println("Error al guardar..."+e);
+            JOptionPane.showMessageDialog(null,"Error al guardar");
+            
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        int fila=this.table.getSelectedRow();
+        
+        this.idCoinTxt.setText(this.table.getValueAt(fila,0).toString());
+        this.nameCoinTxt.setText(this.table.getValueAt(fila,1).toString());
+
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar este registro?");
+            if (eleccion==JOptionPane.YES_OPTION) {
+                try {
+                    PreparedStatement ps=cn.prepareStatement ("DELETE FROM moneda WHERE id_moneda='"+idCoinTxt.getText()+"'");
+                    int respuesta=ps.executeUpdate();
+                    if (respuesta>0) {
+                        
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado");
+                        limpiar();
+                        mostrartabla("");
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "No ha seleccionado el registro");
+
+                    }
+
+                    } catch (SQLException e) {
+            
+            System.err.println("Error al eliminar... "+e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar");
+            
+        }      
+            } else {
+                    
+                    JOptionPane.showMessageDialog(null, "la operación fue cancelada");
+                    mostrartabla("");
+                    
+                }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +525,20 @@ public class coinTable extends javax.swing.JFrame {
     private javax.swing.JPanel background;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JPanel entry;
+    private javax.swing.JTextField idCoinTxt;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField nameCoinTxt;
+    private javax.swing.JLabel nombreLabel;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JTable table;
+    private javax.swing.JLabel title;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+    Conectar con=new Conectar();
+    Connection cn=con.conexion();
 }

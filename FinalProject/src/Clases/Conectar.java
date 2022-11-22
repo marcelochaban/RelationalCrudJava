@@ -12,10 +12,14 @@ import java.sql.DriverManager;
  * @author MarceloWin
  */
 public class Conectar {
-    
+    /**
+     * se crean esta variables con intención de escalar el software a futuro , hosteando la base de datos
+     * y creando distintos usuarios con distintos permisos.
+     */
     public static String user = "root";
     public static String pass = "";
      
+
     Connection cn;
     
     public Connection conexion(){
