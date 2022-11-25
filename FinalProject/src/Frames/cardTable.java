@@ -4,7 +4,14 @@
  */
 package Frames;
 
+import Clases.Conectar;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,13 +20,63 @@ import java.awt.Color;
 public class cardTable extends javax.swing.JFrame {
 
     int yMouse,xMouse;
+    String tipo;
     /**
      * Creates new form cardTable
      */
     public cardTable() {
         initComponents();
         this.setLocationRelativeTo(null);
+        mostrartabla("");
     }
+    void mostrartabla(String valor){
+        
+        DefaultTableModel modelo=new DefaultTableModel();
+        
+        modelo.addColumn("id");
+        modelo.addColumn("numero");
+        modelo.addColumn("titular");
+        modelo.addColumn("cuenta");
+        modelo.addColumn("tipo");
+        table.setModel(modelo);
+        
+        System.out.println("primera");
+        String sql="SELECT * FROM tarjetas JOIN tarjetas.id_tipo = tipo_tarjeta.id_tipo";
+        
+        String datos[]=new String[6];
+        System.out.println("segunda");
+        Statement st;
+        
+        try {
+            st= cn.createStatement();
+            System.out.println("primera");
+            ResultSet rs=st.executeQuery(sql);
+            
+            while(rs.next()){
+                
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+
+                
+                modelo.addRow(datos);
+            }
+            
+           table.setModel(modelo);
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error en el llamado de la tabla... "+e);
+            
+            JOptionPane.showMessageDialog(null,"Error en el llamado de la tabla");
+            
+        }
+        
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,13 +107,13 @@ public class cardTable extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         comboAcc = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        checkCred = new javax.swing.JCheckBox();
+        checkDeb = new javax.swing.JCheckBox();
         deleteTxt = new javax.swing.JButton();
         updateTxt = new javax.swing.JButton();
         cleanTxt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 134, 190));
@@ -197,17 +254,27 @@ public class cardTable extends javax.swing.JFrame {
 
         comboAcc.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         comboAcc.setBorder(null);
-
-        jCheckBox1.setText("Credito");
-        jCheckBox1.setBorder(null);
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        comboAcc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                comboAccActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setText("Debito");
-        jCheckBox2.setBorder(null);
+        checkCred.setText("Credito");
+        checkCred.setBorder(null);
+        checkCred.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkCredActionPerformed(evt);
+            }
+        });
+
+        checkDeb.setText("Debito");
+        checkDeb.setBorder(null);
+        checkDeb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkDebActionPerformed(evt);
+            }
+        });
 
         deleteTxt.setBackground(new java.awt.Color(0, 134, 190));
         deleteTxt.setForeground(new java.awt.Color(255, 255, 255));
@@ -265,9 +332,9 @@ public class cardTable extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboAcc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkCred, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(checkDeb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(cleanTxt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -307,8 +374,8 @@ public class cardTable extends javax.swing.JFrame {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
+                    .addComponent(checkCred)
+                    .addComponent(checkDeb))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteTxt)
@@ -320,7 +387,7 @@ public class cardTable extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 260));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -331,7 +398,7 @@ public class cardTable extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, 260));
 
@@ -415,89 +482,40 @@ public class cardTable extends javax.swing.JFrame {
         yMouse = evt.getY();
     }//GEN-LAST:event_barraMousePressed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void checkCredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCredActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+        if (checkCred.isSelected()) {
+            tipo="1";
+            checkDeb.setSelected(false);
+        }
+    }//GEN-LAST:event_checkCredActionPerformed
 
     private void deleteTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTxtActionPerformed
         // TODO add your handling code here:
-        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar este registro?");
-        if (eleccion==JOptionPane.YES_OPTION) {
-            try {
-                PreparedStatement ps=cn.prepareStatement ("DELETE FROM cliente WHERE id_cliente='"+idClienteTxt.getText()+"'");
-                int respuesta=ps.executeUpdate();
-                if (respuesta>0) {
 
-                    JOptionPane.showMessageDialog(null, "Registro Eliminado");
-                    limpiar();
-                    mostrartabla("");
-
-                } else {
-
-                    JOptionPane.showMessageDialog(null, "No ha seleccionado el registro");
-
-                }
-
-            } catch (SQLException e) {
-
-                System.err.println("Error al eliminar... "+e);
-                JOptionPane.showMessageDialog(null, "Error al eliminar");
-
-            }
-        } else {
-
-            JOptionPane.showMessageDialog(null, "la operación fue cancelada");
-            mostrartabla("");
-
-        }
     }//GEN-LAST:event_deleteTxtActionPerformed
 
     private void updateTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTxtActionPerformed
         // TODO add your handling code here:
-        try {
-            PreparedStatement ps=cn.prepareStatement("INSERT INTO cliente (nombre_cliente,apellido_cliente,telefono_cliente,correo_cliente,dni_cliente)VALUES  (?,?,?,?,?)");
-
-            ps.setString(1,nombreClienteTxt.getText() );
-            ps.setString(2,apellidoClienteTxt.getText() );
-            ps.setString(3,telefonoClienteTxt.getText() );
-            ps.setString(4,correoClienteTxt.getText() );
-            ps.setString(5,dniClienteTxt.getText() );
-
-            ps.executeUpdate();
-
-            limpiar();
-            mostrartabla("");
-
-        } catch (Exception e) {
-
-            System.err.println("Error al guardar..."+e);
-            JOptionPane.showMessageDialog(null,"Error al guardar");
-
-        }
 
     }//GEN-LAST:event_updateTxtActionPerformed
 
     private void cleanTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanTxtActionPerformed
         // TODO add your handling code here:
-        try {
 
-            System.out.println("pisculichi");
-            PreparedStatement ps=cn.prepareStatement ("UPDATE cliente SET nombre_Cliente='"+nombreClienteTxt.getText()+"',apellido_cliente='"+apellidoClienteTxt.getText()+"',dni_cliente='"+dniClienteTxt.getText()+"',telefono_cliente='"+telefonoClienteTxt.getText()+"',correo_cliente='"+correoClienteTxt.getText()+"' where id_cliente='"+idClienteTxt.getText()+"'");
-
-            int respuesta=ps.executeUpdate();
-
-            if (respuesta>0){
-                JOptionPane.showMessageDialog(null,"Datos acutalizados");
-                limpiar();
-                mostrartabla("");
-            }else{
-                JOptionPane.showMessageDialog(null,"No selecciono la fila");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar... "+e);
-            JOptionPane.showMessageDialog(null,"Error al actualizar");
-        }
     }//GEN-LAST:event_cleanTxtActionPerformed
+
+    private void checkDebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkDebActionPerformed
+        // TODO add your handling code here:
+        checkCred.setSelected(false);
+        if (checkCred.isSelected()) {
+            tipo="3";
+        }
+    }//GEN-LAST:event_checkDebActionPerformed
+
+    private void comboAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAccActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboAccActionPerformed
 
     /**
      * @param args the command line arguments
@@ -538,13 +556,13 @@ public class cardTable extends javax.swing.JFrame {
     private javax.swing.JPanel backButton;
     private javax.swing.JLabel backText;
     private javax.swing.JPanel barra;
+    private javax.swing.JCheckBox checkCred;
+    private javax.swing.JCheckBox checkDeb;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
     private javax.swing.JComboBox<String> comboAcc;
     private javax.swing.JButton deleteTxt;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -557,10 +575,12 @@ public class cardTable extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable table;
     private javax.swing.JButton updateTxt;
     // End of variables declaration//GEN-END:variables
+    Conectar con=new Conectar();
+    Connection cn=con.conexion();
 }

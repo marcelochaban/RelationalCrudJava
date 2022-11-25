@@ -4,6 +4,8 @@
  */
 package Frames;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marcelo
@@ -160,9 +162,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void clientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientButtonActionPerformed
         // TODO add your handling code here:
-        clientTable client=new clientTable();
-        client.setVisible(true);
-        this.dispose();
+        try {
+            clientTable client=new clientTable();
+            client.setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al conectarse");
+        }
+        
     }//GEN-LAST:event_clientButtonActionPerformed
 
     private void staffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_staffButtonActionPerformed

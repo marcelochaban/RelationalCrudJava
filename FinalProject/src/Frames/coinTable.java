@@ -29,7 +29,6 @@ public class coinTable extends javax.swing.JFrame {
     public coinTable() {
         this.setLocationRelativeTo(null);
         initComponents();
-        limpiar();
         mostrartabla("");
     }
     

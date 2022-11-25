@@ -432,83 +432,18 @@ public class loanTable extends javax.swing.JFrame {
     }//GEN-LAST:event_barraMousePressed
 
     private void cleanTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanTxtActionPerformed
-        // TODO add your handling code here:
-        try {
 
-            System.out.println("pisculichi");
-            PreparedStatement ps=cn.prepareStatement ("UPDATE cliente SET nombre_Cliente='"+nombreClienteTxt.getText()+"',apellido_cliente='"+apellidoClienteTxt.getText()+"',dni_cliente='"+dniClienteTxt.getText()+"',telefono_cliente='"+telefonoClienteTxt.getText()+"',correo_cliente='"+correoClienteTxt.getText()+"' where id_cliente='"+idClienteTxt.getText()+"'");
-
-            int respuesta=ps.executeUpdate();
-
-            if (respuesta>0){
-                JOptionPane.showMessageDialog(null,"Datos acutalizados");
-                limpiar();
-                mostrartabla("");
-            }else{
-                JOptionPane.showMessageDialog(null,"No selecciono la fila");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar... "+e);
-            JOptionPane.showMessageDialog(null,"Error al actualizar");
-        }
     }//GEN-LAST:event_cleanTxtActionPerformed
 
     private void updateTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTxtActionPerformed
         // TODO add your handling code here:
-        try {
-            PreparedStatement ps=cn.prepareStatement("INSERT INTO cliente (nombre_cliente,apellido_cliente,telefono_cliente,correo_cliente,dni_cliente)VALUES  (?,?,?,?,?)");
 
-            ps.setString(1,nombreClienteTxt.getText() );
-            ps.setString(2,apellidoClienteTxt.getText() );
-            ps.setString(3,telefonoClienteTxt.getText() );
-            ps.setString(4,correoClienteTxt.getText() );
-            ps.setString(5,dniClienteTxt.getText() );
-
-            ps.executeUpdate();
-
-            limpiar();
-            mostrartabla("");
-
-        } catch (Exception e) {
-
-            System.err.println("Error al guardar..."+e);
-            JOptionPane.showMessageDialog(null,"Error al guardar");
-
-        }
 
     }//GEN-LAST:event_updateTxtActionPerformed
 
     private void deleteTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTxtActionPerformed
         // TODO add your handling code here:
-        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar este registro?");
-        if (eleccion==JOptionPane.YES_OPTION) {
-            try {
-                PreparedStatement ps=cn.prepareStatement ("DELETE FROM cliente WHERE id_cliente='"+idClienteTxt.getText()+"'");
-                int respuesta=ps.executeUpdate();
-                if (respuesta>0) {
 
-                    JOptionPane.showMessageDialog(null, "Registro Eliminado");
-                    limpiar();
-                    mostrartabla("");
-
-                } else {
-
-                    JOptionPane.showMessageDialog(null, "No ha seleccionado el registro");
-
-                }
-
-            } catch (SQLException e) {
-
-                System.err.println("Error al eliminar... "+e);
-                JOptionPane.showMessageDialog(null, "Error al eliminar");
-
-            }
-        } else {
-
-            JOptionPane.showMessageDialog(null, "la operación fue cancelada");
-            mostrartabla("");
-
-        }
     }//GEN-LAST:event_deleteTxtActionPerformed
 
     /**

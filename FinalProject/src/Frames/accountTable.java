@@ -5,7 +5,7 @@
 package Frames;
 
 import Clases.Conectar;
-import com.mysql.jdbc.PreparedStatement;
+
 import java.awt.Color;
 import java.sql.Connection;
 import java.util.ArrayList;
