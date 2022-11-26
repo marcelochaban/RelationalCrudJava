@@ -4,7 +4,18 @@
  */
 package Frames;
 
+import Clases.Clientes;
+import Clases.Conectar;
+import Clases.Modelos;
+import Clases.personales;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +31,84 @@ public class loanTable extends javax.swing.JFrame {
     public loanTable() {
         initComponents();
         this.setLocationRelativeTo(null);
+        llenarClientes();
+        llenarPersonal();
+        mostrartabla("");
+    }
+    
+    void mostrartabla(String valor){
+        
+        DefaultTableModel modelo=new DefaultTableModel();
+        
+        modelo.addColumn("Id");
+        modelo.addColumn("Numero");
+        modelo.addColumn("Importe");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Personal");
+        table.setModel(modelo);
+        
+        System.out.println("primera");
+        String sql="SELECT id_prestamo , numero_prestamo , importe_total,fecha_prestamo, cliente.nombre_cliente , personal.nombre_personal FROM prestamo INNER JOIN cliente ON cliente.id_cliente= prestamo.id_cliente INNER JOIN personal ON personal.id_personal= prestamo.id_personal";
+        
+        
+        String datos[]=new String[6];
+        System.out.println("segunda");
+        Statement st;
+        
+        try {
+            st= cn.createStatement();
+            System.out.println("primera");
+            ResultSet rs=st.executeQuery(sql);
+            
+            while(rs.next()){
+                
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
+
+                
+                modelo.addRow(datos);
+            }
+            
+           table.setModel(modelo);
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error en el llamado de la tabla... "+e);
+            
+            JOptionPane.showMessageDialog(null,"Error en el llamado de la tabla");
+            
+        }
+    }
+
+    private void llenarClientes(){
+        Modelos mod= new Modelos();
+        ArrayList<Clientes> listaClientes = mod.getclientes();
+        
+        cbxCliente.removeAllItems();
+        
+        for (int i = 0; i < listaClientes.size(); i++) {
+            
+            cbxCliente.addItem(listaClientes.get(i).getDni_cliente());
+            
+        }
+    }
+    
+    private void llenarPersonal(){
+        Modelos mod= new Modelos();
+        ArrayList<personales> listapersonal = mod.getPersonales();
+        
+        cbxPersonal.removeAllItems();
+        
+        for (int i = 0; i < listapersonal.size(); i++) {
+            
+            cbxPersonal.addItem(listapersonal.get(i).getDni_personal());
+            
+        }
     }
 
     /**
@@ -53,15 +142,15 @@ public class loanTable extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxCliente = new javax.swing.JComboBox<>();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbxPersonal = new javax.swing.JComboBox<>();
         cleanTxt = new javax.swing.JButton();
         updateTxt = new javax.swing.JButton();
         deleteTxt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -201,11 +290,11 @@ public class loanTable extends javax.swing.JFrame {
 
         jLabel6.setText("cliente:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setText("personal:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cleanTxt.setBackground(new java.awt.Color(0, 134, 190));
         cleanTxt.setForeground(new java.awt.Color(255, 255, 255));
@@ -266,12 +355,12 @@ public class loanTable extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jSeparator6)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbxPersonal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cleanTxt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -313,13 +402,13 @@ public class loanTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -332,7 +421,7 @@ public class loanTable extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, 330));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -343,9 +432,9 @@ public class loanTable extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 410, 280));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 450, 330));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -485,12 +574,12 @@ public class loanTable extends javax.swing.JFrame {
     private javax.swing.JPanel backButton;
     private javax.swing.JLabel backText;
     private javax.swing.JPanel barra;
+    private javax.swing.JComboBox<String> cbxCliente;
+    private javax.swing.JComboBox<String> cbxPersonal;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
     private javax.swing.JButton deleteTxt;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -507,11 +596,13 @@ public class loanTable extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable table;
     private javax.swing.JButton updateTxt;
     // End of variables declaration//GEN-END:variables
+    Conectar con=new Conectar();
+    Connection cn=con.conexion();
 }

@@ -1,15 +1,18 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Frames;
 
 import Clases.Conectar;
+import Clases.Modelos;
+import Clases.cuentas;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +31,20 @@ public class cardTable extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         mostrartabla("");
+        llenarCuentas();
+    }
+    
+    private void llenarCuentas(){
+        Modelos mod= new Modelos();
+        ArrayList<cuentas> listacuenta = mod.getCuentas();
+        
+        cbxCuenta.removeAllItems();
+        
+        for (int i = 0; i < listacuenta.size(); i++) {
+            
+            cbxCuenta.addItem(listacuenta.get(i).getNumero_cuenta());
+            
+        }
     }
     void mostrartabla(String valor){
         
@@ -41,9 +58,10 @@ public class cardTable extends javax.swing.JFrame {
         table.setModel(modelo);
         
         System.out.println("primera");
-        String sql="SELECT * FROM tarjetas JOIN tarjetas.id_tipo = tipo_tarjeta.id_tipo";
+        String sql="SELECT tarjetas.id_tarjeta,tarjetas.numero_tarjeta,tarjetas.nombre_titular,cuenta.numero_cuenta,tipo_tarjeta.tipo FROM tarjetas INNER JOIN tipo_tarjeta ON tipo_tarjeta.id_tipo = tarjetas.id_tipo  INNER JOIN cuenta ON cuenta.id_cuenta = tarjetas.id_cuenta";
         
-        String datos[]=new String[6];
+        
+        String datos[]=new String[5];
         System.out.println("segunda");
         Statement st;
         
@@ -106,7 +124,7 @@ public class cardTable extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
-        comboAcc = new javax.swing.JComboBox<>();
+        cbxCuenta = new javax.swing.JComboBox<>();
         checkCred = new javax.swing.JCheckBox();
         checkDeb = new javax.swing.JCheckBox();
         deleteTxt = new javax.swing.JButton();
@@ -252,11 +270,11 @@ public class cardTable extends javax.swing.JFrame {
 
         jLabel5.setText("id cuenta:");
 
-        comboAcc.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        comboAcc.setBorder(null);
-        comboAcc.addActionListener(new java.awt.event.ActionListener() {
+        cbxCuenta.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cbxCuenta.setBorder(null);
+        cbxCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboAccActionPerformed(evt);
+                cbxCuentaActionPerformed(evt);
             }
         });
 
@@ -330,7 +348,7 @@ public class cardTable extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboAcc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbxCuenta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(checkCred, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -369,7 +387,7 @@ public class cardTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(comboAcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -513,9 +531,9 @@ public class cardTable extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkDebActionPerformed
 
-    private void comboAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAccActionPerformed
+    private void cbxCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCuentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboAccActionPerformed
+    }//GEN-LAST:event_cbxCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -556,12 +574,12 @@ public class cardTable extends javax.swing.JFrame {
     private javax.swing.JPanel backButton;
     private javax.swing.JLabel backText;
     private javax.swing.JPanel barra;
+    private javax.swing.JComboBox<String> cbxCuenta;
     private javax.swing.JCheckBox checkCred;
     private javax.swing.JCheckBox checkDeb;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
-    private javax.swing.JComboBox<String> comboAcc;
     private javax.swing.JButton deleteTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

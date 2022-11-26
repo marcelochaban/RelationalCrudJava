@@ -4,12 +4,19 @@
  */
 package Frames;
 
+import Clases.Clientes;
 import Clases.Conectar;
+import Clases.Modelos;
+import Clases.Monedas;
 
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,9 +34,86 @@ public class accountTable extends javax.swing.JFrame {
     public accountTable() {
         initComponents();
         this.setLocationRelativeTo(null);
+        llenarClientes();
+        llenarMonedas();
+        mostrartabla("");
+    }
+    
+        void mostrartabla(String valor){
+        
+        DefaultTableModel modelo=new DefaultTableModel();
+        
+        modelo.addColumn("Id");
+        modelo.addColumn("Numero");
+        modelo.addColumn("Clave");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Moneda");
+        table.setModel(modelo);
+        
+        System.out.println("primera");
+        String sql="SELECT id_cuenta , numero_cuenta , clave_cuenta , cliente.nombre_cliente ,moneda.nombre_moneda FROM cuenta INNER JOIN cliente ON cliente.id_cliente= cuenta.id_cliente INNER JOIN moneda ON moneda.id_moneda= cuenta.id_cuenta";
+        
+        
+        String datos[]=new String[5];
+        System.out.println("segunda");
+        Statement st;
+        
+        try {
+            st= cn.createStatement();
+            System.out.println("primera");
+            ResultSet rs=st.executeQuery(sql);
+            
+            while(rs.next()){
+                
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+
+                
+                modelo.addRow(datos);
+            }
+            
+           table.setModel(modelo);
+            
+        } catch (SQLException e) {
+            
+            System.err.println("Error en el llamado de la tabla... "+e);
+            
+            JOptionPane.showMessageDialog(null,"Error en el llamado de la tabla");
+            
+        }
+    }
+    
+    private void llenarClientes(){
+        Modelos mod= new Modelos();
+        ArrayList<Clientes> listaClientes = mod.getclientes();
+        
+        cbxCliente.removeAllItems();
+        
+        for (int i = 0; i < listaClientes.size(); i++) {
+            
+            cbxCliente.addItem(listaClientes.get(i).getDni_cliente());
+            
+        }
+    }
+    private void llenarMonedas(){
+        Modelos mod= new Modelos();
+        ArrayList<Monedas> listaMonedas = mod.getMonedas();
+        
+        cbxMoneda.removeAllItems();
+        
+        for (int i = 0; i < listaMonedas.size(); i++) {
+            
+            cbxMoneda.addItem(listaMonedas.get(i).getNombre_moneda());
+            
+        }
     }
     
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,9 +146,12 @@ public class accountTable extends javax.swing.JFrame {
         passLabel = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         passLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbxCliente = new javax.swing.JComboBox<>();
+        jSeparator5 = new javax.swing.JSeparator();
+        passLabel2 = new javax.swing.JLabel();
+        cbxMoneda = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -229,10 +316,15 @@ public class accountTable extends javax.swing.JFrame {
 
         passLabel.setText("Clave de cuenta:");
 
-        passLabel1.setText("Clave de cuenta:");
+        passLabel1.setText("Cliente");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setBorder(null);
+        cbxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCliente.setBorder(null);
+
+        passLabel2.setText("Moneda");
+
+        cbxMoneda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxMoneda.setBorder(null);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -264,7 +356,7 @@ public class accountTable extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(passLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(cbxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +365,12 @@ public class accountTable extends javax.swing.JFrame {
                                 .addComponent(passLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(passAccountTxt)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addComponent(jSeparator5)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(passLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxMoneda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,10 +398,16 @@ public class accountTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel1)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passLabel2)
+                    .addComponent(cbxMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteTxt)
                     .addComponent(updateTxt)
@@ -314,7 +417,7 @@ public class accountTable extends javax.swing.JFrame {
 
         background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, 300));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -325,7 +428,7 @@ public class accountTable extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 430, 300));
 
@@ -466,6 +569,8 @@ public class accountTable extends javax.swing.JFrame {
     private javax.swing.JLabel backText;
     private javax.swing.JPanel background;
     private javax.swing.JPanel barra;
+    private javax.swing.JComboBox<String> cbxCliente;
+    private javax.swing.JComboBox<String> cbxMoneda;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
@@ -473,19 +578,20 @@ public class accountTable extends javax.swing.JFrame {
     private javax.swing.JTextField idAccountTxt;
     private javax.swing.JLabel idLabel;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTextField numberAccountTxt;
     private javax.swing.JLabel numberLabel;
     private javax.swing.JTextField passAccountTxt;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel passLabel1;
+    private javax.swing.JLabel passLabel2;
+    private javax.swing.JTable table;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton updateTxt;
     // End of variables declaration//GEN-END:variables
