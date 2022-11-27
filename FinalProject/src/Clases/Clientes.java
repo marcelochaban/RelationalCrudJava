@@ -15,6 +15,22 @@ public class Clientes {
     private String Dni_cliente;
     private String telefono_cliente;
     private String correo_cliente;
+    
+    public Clientes(){
+    
+    }
+    
+    public Clientes(int id_cliente){
+        this.id_cliente=id_cliente;
+    }
+    
+    public Clientes(String nombre_cliente ,String apellido_cliente ){
+        
+        this.apellido_cliente=apellido_cliente;
+        this.nombre_cliente=nombre_cliente;
+
+    
+    }
 
     public int getId_cliente() {
         return id_cliente;
@@ -64,4 +80,7 @@ public class Clientes {
         this.correo_cliente = correo_cliente;
     }
     
+    public String toString(){
+        return nombre_cliente + " " + apellido_cliente;
+    }
 }

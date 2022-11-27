@@ -11,6 +11,7 @@ import Clases.Monedas;
 
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,7 +40,15 @@ public class accountTable extends javax.swing.JFrame {
         mostrartabla("");
     }
     
-        void mostrartabla(String valor){
+    void limpiar(){
+        idAccountTxt.setText("");
+        numberAccountTxt.setText("");
+        passAccountTxt.setText("");
+        cbxCliente.removeAllItems();
+        cbxMoneda.removeAllItems();
+    }
+    
+    void mostrartabla(String valor){
         
         DefaultTableModel modelo=new DefaultTableModel();
         
@@ -94,7 +103,7 @@ public class accountTable extends javax.swing.JFrame {
         
         for (int i = 0; i < listaClientes.size(); i++) {
             
-            cbxCliente.addItem(listaClientes.get(i).getDni_cliente());
+            cbxCliente.addItem(new Clientes(listaClientes.get(i).getNombre_cliente(), listaClientes.get(i).getApellido_cliente()));
             
         }
     }
@@ -106,7 +115,7 @@ public class accountTable extends javax.swing.JFrame {
         
         for (int i = 0; i < listaMonedas.size(); i++) {
             
-            cbxMoneda.addItem(listaMonedas.get(i).getNombre_moneda());
+            cbxMoneda.addItem(new Monedas(listaMonedas.get(i).getNombre_moneda()));
             
         }
     }
@@ -130,7 +139,7 @@ public class accountTable extends javax.swing.JFrame {
         backButton = new javax.swing.JPanel();
         backText = new javax.swing.JLabel();
         barra = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        entrry = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
         cleanTxt = new javax.swing.JButton();
         deleteTxt = new javax.swing.JButton();
@@ -148,7 +157,7 @@ public class accountTable extends javax.swing.JFrame {
         passLabel1 = new javax.swing.JLabel();
         cbxCliente = new javax.swing.JComboBox<>();
         jSeparator5 = new javax.swing.JSeparator();
-        passLabel2 = new javax.swing.JLabel();
+        coinLabel = new javax.swing.JLabel();
         cbxMoneda = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -270,7 +279,7 @@ public class accountTable extends javax.swing.JFrame {
 
         background.add(barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 660, 30));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        entrry.setBackground(new java.awt.Color(255, 255, 255));
 
         titleLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -318,104 +327,102 @@ public class accountTable extends javax.swing.JFrame {
 
         passLabel1.setText("Cliente");
 
-        cbxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxCliente.setBorder(null);
 
-        passLabel2.setText("Moneda");
+        coinLabel.setText("Moneda");
 
-        cbxMoneda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxMoneda.setBorder(null);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout entrryLayout = new javax.swing.GroupLayout(entrry);
+        entrry.setLayout(entrryLayout);
+        entrryLayout.setHorizontalGroup(
+            entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(titleLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(entrryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entrryLayout.createSequentialGroup()
+                        .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, entrryLayout.createSequentialGroup()
                                 .addComponent(cleanTxt)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(updateTxt)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(deleteTxt))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(entrryLayout.createSequentialGroup()
                                 .addComponent(idLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(idAccountTxt))
                             .addComponent(jSeparator2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(entrryLayout.createSequentialGroup()
                                 .addComponent(numberLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(numberAccountTxt))
                             .addComponent(jSeparator4)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(entrryLayout.createSequentialGroup()
                                 .addComponent(passLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(entrryLayout.createSequentialGroup()
+                        .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(entrryLayout.createSequentialGroup()
                                 .addComponent(passLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(passAccountTxt)))
                         .addContainerGap())
                     .addComponent(jSeparator5)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(passLabel2)
+                    .addGroup(entrryLayout.createSequentialGroup()
+                        .addComponent(coinLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxMoneda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        entrryLayout.setVerticalGroup(
+            entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(entrryLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idLabel)
                     .addComponent(idAccountTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numberLabel)
                     .addComponent(numberAccountTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
                     .addComponent(passAccountTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel1)
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passLabel2)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coinLabel)
                     .addComponent(cbxMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(entrryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteTxt)
                     .addComponent(updateTxt)
                     .addComponent(cleanTxt))
                 .addContainerGap())
         );
 
-        background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, 300));
+        background.add(entrry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, 300));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -428,6 +435,11 @@ public class accountTable extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 430, 300));
@@ -519,7 +531,31 @@ public class accountTable extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteTxtActionPerformed
 
     private void updateTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTxtActionPerformed
+//,id_cliente='"+cbxCliente.getItemAt(cbxCliente.getSelectedIndex()).getId_cliente()+"',id_moneda='"+cbxMoneda.getItemAt(cbxMoneda.getSelectedIndex()).getId_moneda() +"'
         // TODO add your handling code here:
+        
+        
+        try {
+            PreparedStatement ps=cn.prepareStatement("INSERT INTO moneda (numero_cuenta ,clave_cuenta,id_cliente,id_moneda)VALUES  (?,?,?,?)");
+            
+
+            ps.setString(1,numberAccountTxt.getText() );
+            ps.setString(2,passAccountTxt.getText() );
+            ps.setString(3,cbxCliente.getItemAt(cbxCliente.getSelectedIndex()).getId_cliente() + "");
+            ps.setString(4,cbxMoneda.getItemAt(cbxMoneda.getSelectedIndex()).getId_moneda()+"");
+
+            
+            ps.executeUpdate();
+            
+            limpiar();
+            mostrartabla("");
+            
+        } catch (Exception e) {
+            
+            System.err.println("Error al guardar..."+e);
+            JOptionPane.showMessageDialog(null,"Error al guardar");
+            
+        }
 
 
     }//GEN-LAST:event_updateTxtActionPerformed
@@ -527,7 +563,38 @@ public class accountTable extends javax.swing.JFrame {
     private void cleanTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanTxtActionPerformed
         // TODO add your handling code here:
         
+        
+         try {    
+                PreparedStatement ps=cn.prepareStatement ("UPDATE cuenta SET numero_cuenta='"+numberAccountTxt.getText()+"',clave_cuenta='"+passAccountTxt.getText()+"' where id_cuenta='"+idAccountTxt.getText()+"'");
+
+                int respuesta=ps.executeUpdate();
+            
+                if (respuesta>0){
+                    JOptionPane.showMessageDialog(null,"Datos acutalizados");
+                    limpiar();
+                    llenarClientes();
+                    llenarMonedas();
+                    mostrartabla("");
+                 }else{
+                    JOptionPane.showMessageDialog(null,"No selecciono la fila");
+                }
+                } catch (SQLException e) {
+                    System.err.println("Error al actualizar... "+e);
+                    JOptionPane.showMessageDialog(null,"Error al actualizar");   
+        }
+        
     }//GEN-LAST:event_cleanTxtActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        int fila=this.table.getSelectedRow();
+        
+        this.idAccountTxt.setText(this.table.getValueAt(fila,0).toString());
+        this.numberAccountTxt.setText(this.table.getValueAt(fila,1).toString());
+        this.passAccountTxt.setText(this.table.getValueAt(fila,2).toString());
+        this.cbxCliente.setEditable(false);
+
+    }//GEN-LAST:event_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -569,16 +636,17 @@ public class accountTable extends javax.swing.JFrame {
     private javax.swing.JLabel backText;
     private javax.swing.JPanel background;
     private javax.swing.JPanel barra;
-    private javax.swing.JComboBox<String> cbxCliente;
-    private javax.swing.JComboBox<String> cbxMoneda;
+    private javax.swing.JComboBox<Clientes> cbxCliente;
+    private javax.swing.JComboBox<Monedas> cbxMoneda;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
+    private javax.swing.JLabel coinLabel;
     private javax.swing.JButton deleteTxt;
+    private javax.swing.JPanel entrry;
     private javax.swing.JTextField idAccountTxt;
     private javax.swing.JLabel idLabel;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -590,7 +658,6 @@ public class accountTable extends javax.swing.JFrame {
     private javax.swing.JTextField passAccountTxt;
     private javax.swing.JLabel passLabel;
     private javax.swing.JLabel passLabel1;
-    private javax.swing.JLabel passLabel2;
     private javax.swing.JTable table;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton updateTxt;
