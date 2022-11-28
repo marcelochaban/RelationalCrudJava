@@ -19,6 +19,22 @@ public class cuentas {
     public int getId_cuenta() {
         return id_cuenta;
     }
+    
+    public cuentas(){
+    
+    }
+    
+    public cuentas(int id_cuenta){
+        this.id_cuenta=id_cuenta;
+    }
+    
+    public cuentas(int id_cuenta ,String numero_cuenta ){
+        this.id_cuenta=id_cuenta;
+        this.numero_cuenta=numero_cuenta;
+        
+
+    
+    }
 
     public void setId_cuenta(int id_cuenta) {
         this.id_cuenta = id_cuenta;
@@ -54,6 +70,10 @@ public class cuentas {
 
     public void setId_moneda(int id_moneda) {
         this.id_moneda = id_moneda;
+    }
+    
+    public String toString(){
+        return ""+numero_cuenta;
     }
     
 }

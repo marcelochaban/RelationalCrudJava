@@ -24,8 +24,8 @@ public class Clientes {
         this.id_cliente=id_cliente;
     }
     
-    public Clientes(String nombre_cliente ,String apellido_cliente ){
-        
+    public Clientes(int id_cliente ,String nombre_cliente ,String apellido_cliente ){
+        this.id_cliente=id_cliente;
         this.apellido_cliente=apellido_cliente;
         this.nombre_cliente=nombre_cliente;
 
@@ -83,4 +83,6 @@ public class Clientes {
     public String toString(){
         return nombre_cliente + " " + apellido_cliente;
     }
+    
+
 }

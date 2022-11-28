@@ -17,6 +17,21 @@ public class personales {
     private String telefono_personal;
     private String correo_personal;
 
+    
+    public personales(){
+    }
+    public personales(int id_cliente){
+        this.id_personal=id_personal;
+    }
+    
+    public personales(int id_personal ,String nombre_personal ,String apellido_personal ){
+        this.id_personal=id_personal;
+        this.apellido_personal=apellido_personal;
+        this.nombre_personal=nombre_personal;
+
+    
+    }
+    
     public int getId_personal() {
         return id_personal;
     }
@@ -65,4 +80,7 @@ public class personales {
         this.correo_personal = correo_personal;
     }
     
+    public String toString(){
+        return nombre_personal + " " + apellido_personal;
+    }
 }

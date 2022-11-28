@@ -16,9 +16,10 @@ public class Monedas {
     public Monedas(){
     }
     
-    public Monedas(String nombre_moneda ){
+    public Monedas(int id_moneda ,String nombre_moneda ){
         
         this.nombre_moneda=nombre_moneda;
+        this.id_moneda=id_moneda;
 
     }
     

@@ -9,6 +9,7 @@ import Clases.Modelos;
 import Clases.cuentas;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,7 +43,7 @@ public class cardTable extends javax.swing.JFrame {
         
         for (int i = 0; i < listacuenta.size(); i++) {
             
-            cbxCuenta.addItem(listacuenta.get(i).getNumero_cuenta());
+            cbxCuenta.addItem(new cuentas(listacuenta.get(i).getId_cuenta(),listacuenta.get(i).getNumero_cuenta()));
             
         }
     }
@@ -57,17 +58,17 @@ public class cardTable extends javax.swing.JFrame {
         modelo.addColumn("tipo");
         table.setModel(modelo);
         
-        System.out.println("primera");
-        String sql="SELECT tarjetas.id_tarjeta,tarjetas.numero_tarjeta,tarjetas.nombre_titular,cuenta.numero_cuenta,tipo_tarjeta.tipo FROM tarjetas INNER JOIN tipo_tarjeta ON tipo_tarjeta.id_tipo = tarjetas.id_tipo  INNER JOIN cuenta ON cuenta.id_cuenta = tarjetas.id_cuenta";
+
+        //String sql="SELECT tarjetas.id_tarjeta,tarjetas.numero_tarjeta,tarjetas.nombre_titular,cuenta.numero_cuenta,tipo_tarjeta.tipo FROM tarjetas INNER JOIN tipo_tarjeta ON tipo_tarjeta.id_tipo = tarjetas.id_tipo  INNER JOIN cuenta ON cuenta.id_cuenta = tarjetas.id_cuenta";
+        String sql="SELECT * FROM tarjetas";
         
         
         String datos[]=new String[5];
-        System.out.println("segunda");
+
         Statement st;
         
         try {
             st= cn.createStatement();
-            System.out.println("primera");
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -93,6 +94,17 @@ public class cardTable extends javax.swing.JFrame {
         }
         
     }
+    
+    void limpiar(){
+        idTxt.setText("");
+        numTxt.setText("");
+        titularTxt.setText("");
+        tipo="";
+        checkCred.setSelected(false);
+        checkDeb.setSelected(false);
+        cbxCuenta.removeAllItems();
+
+    }
 
 
 
@@ -114,12 +126,12 @@ public class cardTable extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        idTxt = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        numTxt = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
-        jTextField3 = new javax.swing.JTextField();
+        titularTxt = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -257,14 +269,14 @@ public class cardTable extends javax.swing.JFrame {
 
         jLabel2.setText("id:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setBorder(null);
+        idTxt.setEditable(false);
+        idTxt.setBorder(null);
 
         jLabel3.setText("numero de tarjeta:");
 
-        jTextField2.setBorder(null);
+        numTxt.setBorder(null);
 
-        jTextField3.setBorder(null);
+        titularTxt.setBorder(null);
 
         jLabel4.setText("nombre del titular:");
 
@@ -333,17 +345,17 @@ public class cardTable extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1))
+                        .addComponent(idTxt))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2))
+                        .addComponent(numTxt))
                     .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3))
+                        .addComponent(titularTxt))
                     .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -369,19 +381,19 @@ public class cardTable extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(numTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titularTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -416,6 +428,11 @@ public class cardTable extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, 260));
@@ -510,16 +527,91 @@ public class cardTable extends javax.swing.JFrame {
 
     private void deleteTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTxtActionPerformed
         // TODO add your handling code here:
+        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar este registro?");
+            if (eleccion==JOptionPane.YES_OPTION) {
+                try {
+                    PreparedStatement ps=cn.prepareStatement ("DELETE FROM tarjetas WHERE id_tarjeta='"+idTxt.getText()+"'");
+                    int respuesta=ps.executeUpdate();
+                    if (respuesta>0) {
+                        
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado");
+                        mostrartabla("");
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "No ha seleccionado el registro");
+
+                    }
+
+                    } catch (SQLException e) {
+            
+            System.err.println("Error al eliminar... "+e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar");
+            
+        }      
+            } else {
+                    
+                    JOptionPane.showMessageDialog(null, "la operación fue cancelada");
+                    mostrartabla("");
+                    
+                }
 
     }//GEN-LAST:event_deleteTxtActionPerformed
 
     private void updateTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTxtActionPerformed
         // TODO add your handling code here:
+        int clien=cbxCuenta.getItemAt(cbxCuenta.getSelectedIndex()).getId_cuenta();
+
+
+        
+        String clienS= ""+clien;
+
+        
+        try {
+            PreparedStatement ps=cn.prepareStatement("INSERT INTO tarjetas (numero_tarjeta,nombre_titular,id_cuenta)VALUES  (?,?,?)");                             
+            
+            
+            
+            ps.setString(1,numTxt.getText() );
+            ps.setString(2,titularTxt.getText() );
+            ps.setString(3,clienS);
+
+            
+            ps.executeUpdate();
+            
+            limpiar();
+            llenarCuentas();
+            mostrartabla("");
+            JOptionPane.showMessageDialog(null,"Se guardo correctamente");
+            
+        } catch (Exception e) {
+            
+            System.err.println("Error al guardar..."+e);
+            JOptionPane.showMessageDialog(null,"Error al guardar");
+            
+        }
 
     }//GEN-LAST:event_updateTxtActionPerformed
 
     private void cleanTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanTxtActionPerformed
         // TODO add your handling code here:
+         try {    
+                PreparedStatement ps=cn.prepareStatement ("UPDATE tarjetas SET numero_tarjeta='"+numTxt.getText()+"',nombre_titular='"+titularTxt.getText()+"' where id_tarjeta='"+idTxt.getText()+"'");
+
+                int respuesta=ps.executeUpdate();
+            
+                if (respuesta>0){
+                    JOptionPane.showMessageDialog(null,"Datos acutalizados");
+                    limpiar();
+                    llenarCuentas();
+                    mostrartabla("");
+                 }else{
+                    JOptionPane.showMessageDialog(null,"No selecciono la fila");
+                }
+                } catch (SQLException e) {
+                    System.err.println("Error al actualizar... "+e);
+                    JOptionPane.showMessageDialog(null,"Error al actualizar");   
+        }
 
     }//GEN-LAST:event_cleanTxtActionPerformed
 
@@ -534,6 +626,18 @@ public class cardTable extends javax.swing.JFrame {
     private void cbxCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCuentaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxCuentaActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        int fila=this.table.getSelectedRow();
+        
+        this.idTxt.setText(this.table.getValueAt(fila,0).toString());
+        this.numTxt.setText(this.table.getValueAt(fila,1).toString());
+        this.titularTxt.setText(this.table.getValueAt(fila,2).toString());
+        this.cbxCuenta.setEditable(false);
+        checkCred.setSelected(false);
+        checkDeb.setSelected(false);
+    }//GEN-LAST:event_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -574,13 +678,14 @@ public class cardTable extends javax.swing.JFrame {
     private javax.swing.JPanel backButton;
     private javax.swing.JLabel backText;
     private javax.swing.JPanel barra;
-    private javax.swing.JComboBox<String> cbxCuenta;
+    private javax.swing.JComboBox<cuentas> cbxCuenta;
     private javax.swing.JCheckBox checkCred;
     private javax.swing.JCheckBox checkDeb;
     private javax.swing.JButton cleanTxt;
     private javax.swing.JPanel closeButton;
     private javax.swing.JLabel closeText;
     private javax.swing.JButton deleteTxt;
+    private javax.swing.JTextField idTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -593,10 +698,9 @@ public class cardTable extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField numTxt;
     private javax.swing.JTable table;
+    private javax.swing.JTextField titularTxt;
     private javax.swing.JButton updateTxt;
     // End of variables declaration//GEN-END:variables
     Conectar con=new Conectar();

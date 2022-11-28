@@ -30,7 +30,6 @@ public class Modelos {
             
             st = cn.createStatement();
             rs=st.executeQuery("SELECT * FROM cliente");
-            System.out.println("si llega");
             while( rs.next()){
                 
                 System.out.println("1");
@@ -69,7 +68,6 @@ public class Modelos {
             
             st = cn.createStatement();
             rs=st.executeQuery("SELECT * FROM moneda");
-            System.out.println("si llega");
             while( rs.next()){
                 
                 System.out.println("1");
@@ -104,7 +102,6 @@ public class Modelos {
             
             st = cn.createStatement();
             rs=st.executeQuery("SELECT * FROM personal");
-            System.out.println("si llega");
             while( rs.next()){
                 
                 System.out.println("1");
@@ -143,7 +140,6 @@ public class Modelos {
             
             st = cn.createStatement();
             rs=st.executeQuery("SELECT * FROM cuenta");
-            System.out.println("si llega");
             while( rs.next()){
                 
                 cuentas cuenta = new cuentas();

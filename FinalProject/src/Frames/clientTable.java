@@ -57,16 +57,16 @@ public class clientTable extends javax.swing.JFrame {
         modelo.addColumn("correo");
         table.setModel(modelo);
         
-        System.out.println("primera");
+
         String sql="SELECT * FROM cliente WHERE concat(nombre_cliente, '',apellido_cliente) LIKE '%"+valor+"%'";
         
         String datos[]=new String[6];
-        System.out.println("segunda");
+
         Statement st;
         
         try {
             st= cn.createStatement();
-            System.out.println("primera");
+
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -582,7 +582,6 @@ public class clientTable extends javax.swing.JFrame {
         // TODO add your handling code here:
                 try {
                     
-                    System.out.println("pisculichi");
                     PreparedStatement ps=cn.prepareStatement ("UPDATE cliente SET nombre_Cliente='"+nombreClienteTxt.getText()+"',apellido_cliente='"+apellidoClienteTxt.getText()+"',dni_cliente='"+dniClienteTxt.getText()+"',telefono_cliente='"+telefonoClienteTxt.getText()+"',correo_cliente='"+correoClienteTxt.getText()+"' where id_cliente='"+idClienteTxt.getText()+"'");
                     
             int respuesta=ps.executeUpdate();

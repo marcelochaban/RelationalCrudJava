@@ -42,7 +42,7 @@ public class personalTable extends javax.swing.JFrame {
         telefonoPersonalTxt.setText("");
         correoPersonalTxt.setText("");
         dniPersonalTxt.setText("");
-        System.out.println("funco");
+
     }
 
     void mostrartabla(String valor){
@@ -57,16 +57,16 @@ public class personalTable extends javax.swing.JFrame {
         modelo.addColumn("correo");
         table.setModel(modelo);
         
-        System.out.println("primera");
+
         String sql="SELECT * FROM personal WHERE concat(nombre_personal, '',apellido_personal) LIKE '%"+valor+"%'";
         
         String datos[]=new String[6];
-        System.out.println("segunda");
+
         Statement st;
         
         try {
             st= cn.createStatement();
-            System.out.println("primera");
+
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -583,7 +583,6 @@ public class personalTable extends javax.swing.JFrame {
         // TODO add your handling code here:
                 try {
                     
-                    System.out.println("pisculichi");
                     PreparedStatement ps=cn.prepareStatement ("UPDATE personal SET nombre_personal='"+nombrePersonalTxt.getText()+"',apellido_personal='"+apellidoPersonalTxt.getText()+"',dni_personal='"+dniPersonalTxt.getText()+"',telefono_personal='"+telefonoPersonalTxt.getText()+"',correo_personal='"+correoPersonalTxt.getText()+"' where id_personal='"+idPersonalTxt.getText()+"'");
                     
             int respuesta=ps.executeUpdate();

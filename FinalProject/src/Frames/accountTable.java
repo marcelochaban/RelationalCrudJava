@@ -35,9 +35,10 @@ public class accountTable extends javax.swing.JFrame {
     public accountTable() {
         initComponents();
         this.setLocationRelativeTo(null);
+        limpiar();
         llenarClientes();
         llenarMonedas();
-        mostrartabla("");
+        mostrarTabla("");
     }
     
     void limpiar(){
@@ -48,7 +49,7 @@ public class accountTable extends javax.swing.JFrame {
         cbxMoneda.removeAllItems();
     }
     
-    void mostrartabla(String valor){
+    void mostrarTabla(String valor){
         
         DefaultTableModel modelo=new DefaultTableModel();
         
@@ -59,17 +60,18 @@ public class accountTable extends javax.swing.JFrame {
         modelo.addColumn("Moneda");
         table.setModel(modelo);
         
-        System.out.println("primera");
-        String sql="SELECT id_cuenta , numero_cuenta , clave_cuenta , cliente.nombre_cliente ,moneda.nombre_moneda FROM cuenta INNER JOIN cliente ON cliente.id_cliente= cuenta.id_cliente INNER JOIN moneda ON moneda.id_moneda= cuenta.id_cuenta";
+
+        //String sql="SELECT id_cuenta , numero_cuenta , clave_cuenta , cliente.nombre_cliente ,moneda.nombre_moneda FROM cuenta INNER JOIN cliente ON cliente.id_cliente= cuenta.id_cliente INNER JOIN moneda ON moneda.id_moneda= cuenta.id_cuenta";
+        String sql="SELECT * FROM cuenta";
         
         
         String datos[]=new String[5];
-        System.out.println("segunda");
+
         Statement st;
         
         try {
             st= cn.createStatement();
-            System.out.println("primera");
+
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -83,8 +85,8 @@ public class accountTable extends javax.swing.JFrame {
                 
                 modelo.addRow(datos);
             }
-            
-           table.setModel(modelo);
+
+            table.setModel(modelo);
             
         } catch (SQLException e) {
             
@@ -95,6 +97,7 @@ public class accountTable extends javax.swing.JFrame {
         }
     }
     
+    
     private void llenarClientes(){
         Modelos mod= new Modelos();
         ArrayList<Clientes> listaClientes = mod.getclientes();
@@ -103,10 +106,11 @@ public class accountTable extends javax.swing.JFrame {
         
         for (int i = 0; i < listaClientes.size(); i++) {
             
-            cbxCliente.addItem(new Clientes(listaClientes.get(i).getNombre_cliente(), listaClientes.get(i).getApellido_cliente()));
+            cbxCliente.addItem(new Clientes(listaClientes.get(i).getId_cliente(),listaClientes.get(i).getNombre_cliente(), listaClientes.get(i).getApellido_cliente()));
             
         }
     }
+    
     private void llenarMonedas(){
         Modelos mod= new Modelos();
         ArrayList<Monedas> listaMonedas = mod.getMonedas();
@@ -115,11 +119,12 @@ public class accountTable extends javax.swing.JFrame {
         
         for (int i = 0; i < listaMonedas.size(); i++) {
             
-            cbxMoneda.addItem(new Monedas(listaMonedas.get(i).getNombre_moneda()));
+            cbxMoneda.addItem(new Monedas(listaMonedas.get(i).getId_moneda(),listaMonedas.get(i).getNombre_moneda()));
             
         }
     }
     
+
 
     
     
@@ -429,12 +434,22 @@ public class accountTable extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        table.setToolTipText("");
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -528,27 +543,66 @@ public class accountTable extends javax.swing.JFrame {
 
     private void deleteTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTxtActionPerformed
         // TODO add your handling code here:
+        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar este registro?");
+            if (eleccion==JOptionPane.YES_OPTION) {
+                try {
+                    PreparedStatement ps=cn.prepareStatement ("DELETE FROM cuenta WHERE id_cuenta='"+idAccountTxt.getText()+"'");
+                    int respuesta=ps.executeUpdate();
+                    if (respuesta>0) {
+                        
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado");
+                        mostrarTabla("");
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "No ha seleccionado el registro");
+
+                    }
+
+                    } catch (SQLException e) {
+            
+            System.err.println("Error al eliminar... "+e);
+            JOptionPane.showMessageDialog(null, "Error al eliminar");
+            
+        }      
+            } else {
+                    
+                    JOptionPane.showMessageDialog(null, "la operación fue cancelada");
+                    mostrarTabla("");
+                    
+                }
     }//GEN-LAST:event_deleteTxtActionPerformed
 
     private void updateTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateTxtActionPerformed
-//,id_cliente='"+cbxCliente.getItemAt(cbxCliente.getSelectedIndex()).getId_cliente()+"',id_moneda='"+cbxMoneda.getItemAt(cbxMoneda.getSelectedIndex()).getId_moneda() +"'
-        // TODO add your handling code here:
+
         
+        int clien=cbxCliente.getItemAt(cbxCliente.getSelectedIndex()).getId_cliente();
+        int mon=cbxMoneda.getItemAt(cbxMoneda.getSelectedIndex()).getId_moneda();
+
+        
+        String clienS= ""+clien;
+        String monS= ""+mon;
+        System.out.println(""+monS+clienS);
         
         try {
-            PreparedStatement ps=cn.prepareStatement("INSERT INTO moneda (numero_cuenta ,clave_cuenta,id_cliente,id_moneda)VALUES  (?,?,?,?)");
+            PreparedStatement ps=cn.prepareStatement("INSERT INTO cuenta (numero_cuenta ,clave_cuenta,id_cliente,id_moneda)VALUES  (?,?,?,?)");                             
             
-
+            
+            System.out.println(clien+" "+mon);
+            
             ps.setString(1,numberAccountTxt.getText() );
             ps.setString(2,passAccountTxt.getText() );
-            ps.setString(3,cbxCliente.getItemAt(cbxCliente.getSelectedIndex()).getId_cliente() + "");
-            ps.setString(4,cbxMoneda.getItemAt(cbxMoneda.getSelectedIndex()).getId_moneda()+"");
+            ps.setString(3,clienS);
+            ps.setString(4,monS);
 
             
             ps.executeUpdate();
             
             limpiar();
-            mostrartabla("");
+            llenarClientes();
+            llenarMonedas();
+            mostrarTabla("");
+            JOptionPane.showMessageDialog(null,"Se guardo correctamente");
             
         } catch (Exception e) {
             
@@ -574,7 +628,7 @@ public class accountTable extends javax.swing.JFrame {
                     limpiar();
                     llenarClientes();
                     llenarMonedas();
-                    mostrartabla("");
+                    mostrarTabla("");
                  }else{
                     JOptionPane.showMessageDialog(null,"No selecciono la fila");
                 }
@@ -593,6 +647,7 @@ public class accountTable extends javax.swing.JFrame {
         this.numberAccountTxt.setText(this.table.getValueAt(fila,1).toString());
         this.passAccountTxt.setText(this.table.getValueAt(fila,2).toString());
         this.cbxCliente.setEditable(false);
+        this.cbxMoneda.setEditable(false);
 
     }//GEN-LAST:event_tableMouseClicked
 

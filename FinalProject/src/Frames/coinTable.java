@@ -37,7 +37,6 @@ public class coinTable extends javax.swing.JFrame {
         nameCoinTxt.setText("");
         
         
-        System.out.println("funco");
     }
 
     void mostrartabla(String valor){
@@ -48,16 +47,16 @@ public class coinTable extends javax.swing.JFrame {
         modelo.addColumn("nombre");
         table.setModel(modelo);
         
-        System.out.println("primera");
+
         String sql="SELECT * FROM moneda";
         
         String datos[]=new String[6];
-        System.out.println("segunda");
+
         Statement st;
         
         try {
             st= cn.createStatement();
-            System.out.println("primera");
+
             ResultSet rs=st.executeQuery(sql);
             
             while(rs.next()){
@@ -400,8 +399,7 @@ public class coinTable extends javax.swing.JFrame {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
         try {
-                    
-                    System.out.println("pisculichi");
+                
                     PreparedStatement ps=cn.prepareStatement ("UPDATE moneda SET nombre_moneda='"+nameCoinTxt.getText()+"' where id_moneda='"+idCoinTxt.getText()+"'");
                     
             int respuesta=ps.executeUpdate();
